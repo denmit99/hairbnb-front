@@ -1,0 +1,92 @@
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  }
+  
+  .reglog-box {
+    background-color: rgb(225, 237, 248);
+    width: 350px;
+    border-color: rgb(186, 186, 186);
+    border-width: 1.5px;
+    border-style: solid;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    /* min-height: 100vh; */
+  }
+
+  .reglog-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .reglog-input {
+    width: 100%;
+    height: 40px;
+    border-color: rgb(186, 186, 186);
+    border-width: 1.5px;
+    border-style: solid;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    font-size: 15px;
+  }
+
+  textarea:focus,
+  input:focus {
+    outline: none;
+    border-color: rgb(58, 58, 58);
+  }
+
+  .registration-page {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .is-host {
+    width: 100%
+  }
+
+  .register-button {
+    background-color: #25b784;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    letter-spacing: 1px;
+    transition-duration: 0.5s;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .register-button:hover {
+    background-color: #36c995;
+  }
+
+  .labeled-checkbox label  {
+    margin-left: 5px;
+  }
+
+  .error-message {
+    color: red;
+    margin-bottom: 2px;
+  }

@@ -1,4 +1,4 @@
-import "./Button.css";
+import "./RegLog.css";
 
 interface Props {
   children: string;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ConfirmButton from "./ConfirmButon";
-import "./RegistrationBox.css";
+import "./RegLog.css";
 
 interface Props {
   toggleFunction: () => void;
@@ -13,7 +13,7 @@ function LoginBox({ toggleFunction }: Props) {
   return (
     <div className="registration-page">
       <div className="reglog-box">
-        <p className="title">Welcome to HairBnb</p>
+        <p className="reglog-title">Welcome to HairBnb</p>
         <input className="reglog-input" placeholder="E-mail" />
         <input
           onChange={(event) => setEmail(event.currentTarget.value)}
@@ -21,12 +21,6 @@ function LoginBox({ toggleFunction }: Props) {
           className="reglog-input"
           placeholder="Password"
         />
-        {/* 
-        <label>
-          <input type="checkbox" />
-          Remember Me
-        </label> */}
-
         <ConfirmButton onClick={onClick}>Login</ConfirmButton>
         <p>
           Don't have an account?{" "}
