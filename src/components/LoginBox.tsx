@@ -23,7 +23,7 @@ function LoginBox({ toggleFunction }: Props) {
         />
         <ConfirmButton onClick={onClick}>Login</ConfirmButton>
         <p>
-          Don't have an account?{" "}
+          Don't have an account? {/* TODO use react ROUTER */}
           <a onClick={toggleFunction} href="#">
             Register
           </a>
