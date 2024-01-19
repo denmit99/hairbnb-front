@@ -112,3 +112,9 @@
     color: red;
     margin-bottom: 2px;
   }
+
+  .input-error-message {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
