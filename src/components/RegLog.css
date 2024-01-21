@@ -38,7 +38,7 @@
     border-radius: 5px;
     margin-bottom: 10px;
     padding-left: 5px;
-    font-size: 15px;
+    font-size: 14px;
   }
 
   textarea:focus,
@@ -65,7 +65,8 @@
     padding-right: 15px;
     color: white;
     border: none;
-    border-radius: 5px;
+    /* border radius but none??? */
+    border-radius: 5px; 
     cursor: pointer;
     height: 40px;
     width: 100%;
@@ -75,7 +76,7 @@
     margin-right: 10px;
     letter-spacing: 1px;
     transition-duration: 0.5s;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
   }
   .register-button:hover {
@@ -100,7 +101,7 @@
     margin-right: 10px;
     letter-spacing: 1px;
     transition-duration: 0.5s;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
   }
 
