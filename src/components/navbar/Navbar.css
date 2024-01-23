@@ -1,0 +1,40 @@
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.hairbnb-title {
+    color: #25b784;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.user-button {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    border-radius: 9999px;
+    border-color: rgb(186, 186, 186);
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+}
+
+.user-button:hover {
+    box-shadow: 0px 1px 5px rgb(167, 167, 167);
+}
+
+.profile-pic {
+    margin-left: 5px;
+}

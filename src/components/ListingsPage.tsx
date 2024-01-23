@@ -1,5 +1,6 @@
 import "./RegLog.css";
 import "./Listings.css";
+//REMOVE FA change to MUI
 import { FaSearch } from "react-icons/fa";
 
 function ListingsPage() {
@@ -61,6 +62,7 @@ function ListingsPage() {
         <div className="listing">hello</div>
         <div className="listing">hello</div>
       </div> */}
+
       <div className="listing-box">
         <section className="search-bar-container">
           <div className="search-bar">
@@ -96,11 +98,12 @@ function ListingsPage() {
           {listings.map((l) => {
             return (
               <>
-                <div className="card-container">
+                <div key={l.id} className="card-container">
                   <div className="listing-card">
-                    {/* <img src={require("../static/apartment2.jpg")} /> */}
+                    {/* <button className="like-button">
+                      <FavoriteIcon fontSize="medium" />
+                    </button> */}
                     <img src={`images/${l.src}`} />
-                    {/* <button className="like-button">OK</button> */}
                     <div className="listing-card-content">
                       <p className="listing-title">{l.name}</p>
                       <p className="listing-description">{l.description}</p>
