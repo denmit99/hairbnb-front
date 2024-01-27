@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
 import ConfirmButton from "./ConfirmButon";
 import "./RegLog.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import TextInput from "./TextInput";
 import { EmailUtil } from "../util/EmailUtil";
 import axios from "../api/axios";
 import { AxiosError } from "axios";
+import useAuth from "../api/useAuth";
 
 const LOGIN_URL = "/auth/login";
 
 function LoginPage() {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     if (!formData.email) {
@@ -39,6 +42,8 @@ function LoginPage() {
       console.log(
         `Response ${JSON.stringify(response.data)}, Status: ${response.status}`
       );
+      login(response.data.token);
+      setSuccess(true);
     } catch (error) {
       const err = error as AxiosError;
       console.log(err.response?.data);
@@ -55,36 +60,40 @@ function LoginPage() {
     }
   };
 
-  return (
-    <div className="registration-page">
-      <div className="reglog-box">
-        <p className="reglog-title">Welcome to HairBnb</p>
-        <p className="error-message">{errorMsg ? errorMsg : <></>}</p>
-        <TextInput
-          placeholder="E-mail"
-          errorMsg={isValidEmail ? "" : "E-mail is not valid"}
-          invalid={!isValidEmail}
-          onChange={(e) => {
-            setFormData({ ...formData, ["email"]: e.target.value });
-          }}
-        />
-        <TextInput
-          placeholder="Password"
-          type="password"
-          onChange={(e) =>
-            setFormData({ ...formData, ["password"]: e.target.value })
-          }
-        />
-        <ConfirmButton disabled={!isValidEmail} onClick={submitFrom}>
-          Login
-        </ConfirmButton>
-        <p>
-          Don't have an account?
-          <Link to={"/register"}>Register</Link>
-        </p>
+  if (!success) {
+    return (
+      <div className="registration-page">
+        <div className="reglog-box">
+          <p className="reglog-title">Welcome to HairBnb</p>
+          <p className="error-message">{errorMsg ? errorMsg : <></>}</p>
+          <TextInput
+            placeholder="E-mail"
+            errorMsg={isValidEmail ? "" : "E-mail is not valid"}
+            invalid={!isValidEmail}
+            onChange={(e) => {
+              setFormData({ ...formData, ["email"]: e.target.value });
+            }}
+          />
+          <TextInput
+            placeholder="Password"
+            type="password"
+            onChange={(e) =>
+              setFormData({ ...formData, ["password"]: e.target.value })
+            }
+          />
+          <ConfirmButton disabled={!isValidEmail} onClick={submitFrom}>
+            Login
+          </ConfirmButton>
+          <p>
+            Don't have an account?
+            <Link to={"/register"}>Register</Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <Navigate to={"/"}></Navigate>;
+  }
 }
 
 export default LoginPage;
