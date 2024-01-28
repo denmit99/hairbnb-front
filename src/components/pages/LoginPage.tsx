@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import ConfirmButton from "./ConfirmButon";
+import ConfirmButton from "../ui/ConfirmButon";
 import "./RegLog.css";
 import { Link, Navigate } from "react-router-dom";
-import TextInput from "./TextInput";
-import { EmailUtil } from "../util/EmailUtil";
-import axios from "../api/axios";
+import TextInput from "../ui/TextInput";
+import { EmailUtil } from "../../util/EmailUtil";
+import axios from "../../api/axios";
 import { AxiosError } from "axios";
-import useAuth from "../api/useAuth";
+import useAuth from "../../api/useAuth";
+import FormTitle from "../ui/FormTitle";
 
 const LOGIN_URL = "/auth/login";
 
@@ -64,7 +65,7 @@ function LoginPage() {
     return (
       <div className="registration-page">
         <div className="reglog-box">
-          <p className="reglog-title">Welcome to HairBnb</p>
+          <FormTitle>Welcome to HairBnb</FormTitle>
           <p className="error-message">{errorMsg ? errorMsg : <></>}</p>
           <TextInput
             placeholder="E-mail"

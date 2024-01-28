@@ -1,0 +1,50 @@
+.bedroom-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* background-color: blue; */
+}
+
+.bedroom-box-header {
+    /* background-color: green; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.bedroom-box-header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.bedroom-box-header-button {
+    height: 40px;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 15px;
+    background-color: white;
+    border-style: solid;
+    border-color: rgb(186, 186, 186);
+    border-radius: 5px;
+    border-width: 1.5px;
+    font-weight: 500;
+    font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+.bedroom-box-header-button:hover {
+    filter: brightness(0.9);
+}
+
+.bedroom-title {
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.bed-sum {
+    margin-bottom: 5px;
+    color: grey
+}

@@ -1,10 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import NotFoundPage from "./components/NotFoundPage";
-import RegistrationPage from "./components/RegistrationPage";
-import LoginPage from "./components/LoginPage";
-import ListingsPage from "./components/ListingsPage";
+import NotFoundPage from "./components/pages/NotFoundPage";
+import RegistrationPage from "./components/pages/RegistrationPage";
+import LoginPage from "./components/pages/LoginPage";
+import ListingsPage from "./components/pages/ListingsPage";
 import Navbar from "./components/navbar/Navbar";
 import PrivateRoute from "./api/PrivateRoute";
+import ListingsCreatePage from "./components/pages/ListingsCreatePage";
 
 function App() {
   return (
@@ -22,6 +23,15 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/listings/create"
+          element={
+            <PrivateRoute role="host">
+              <ListingsCreatePage />
+            </PrivateRoute>
+          }
+        />
+
         <Route path="*" element={<NotFoundPage />}></Route>
       </Routes>
     </>

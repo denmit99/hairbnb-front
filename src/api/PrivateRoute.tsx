@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import useAuth from "./useAuth";
-import NotFoundPage from "../components/NotFoundPage";
+import NotFoundPage from "../components/pages/NotFoundPage";
 
 interface PrivateRouteProps {
   children?: ReactNode;

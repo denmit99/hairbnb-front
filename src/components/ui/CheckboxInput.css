@@ -1,0 +1,31 @@
+.checkbox-input {
+    /* background-color: green; */
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkbox {
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color:  rgb(191, 191, 191);
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkbox:hover {
+    border-color: black
+}
+
+.checkbox-label {
+    margin-left: 10px;
+}

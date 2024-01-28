@@ -1,0 +1,57 @@
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  }
+  
+  .reglog-box {
+    background-color: rgb(225, 237, 248);
+    width: 350px;
+    border-color: rgb(186, 186, 186);
+    border-width: 1.5px;
+    border-style: solid;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    /* min-height: 100vh; */
+  }
+
+  .reglog-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  textarea:focus,
+  input:focus {
+    outline: none;
+    border-color: rgb(58, 58, 58);
+  }
+
+  .registration-page {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .is-host {
+    width: 100%
+  }
+
+  .labeled-checkbox label  {
+    margin-left: 5px;
+  }
+
+  .error-message {
+    color: red;
+    margin-bottom: 2px;
+  }
+
+  

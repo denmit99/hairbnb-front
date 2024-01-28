@@ -1,4 +1,4 @@
-import "./RegLog.css";
+import "./Button.css";
 
 interface Props {
   children: string;
@@ -11,7 +11,7 @@ function ConfirmButton({ children, disabled, onClick }: Props) {
     <button
       disabled={disabled}
       onClick={!disabled ? onClick : () => {}}
-      className={disabled ? "disabled-button" : "register-button"}
+      className={disabled ? "disabled-button" : "confirm-button"}
     >
       {children}
     </button>

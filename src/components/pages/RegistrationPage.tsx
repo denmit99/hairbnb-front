@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
-import ConfirmButton from "./ConfirmButon";
+import ConfirmButton from "../ui/ConfirmButon";
 import "./RegLog.css";
-import axios from "../api/axios";
+import axios from "../../api/axios";
 import { AxiosError } from "axios";
-import TextInput from "./TextInput";
+import TextInput from "../ui/TextInput";
 import { Link, Navigate } from "react-router-dom";
-import { EmailUtil } from "../util/EmailUtil";
-import { useCookies } from "react-cookie";
-import useAuth from "../api/useAuth";
+import { EmailUtil } from "../../util/EmailUtil";
+import useAuth from "../../api/useAuth";
+import FormTitle from "../ui/FormTitle";
 
 // https://www.youtube.com/watch?v=X3qyxo_UTR4
 
 const REGISTER_URL = "/auth/register";
 
 function RegistrationPage() {
-  const [cookies, setCookie] = useCookies(["jwt-auth"]);
   const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
+    firstName: "",
+    lastName: "",
     password: "",
     passwordTwo: "",
     isHost: false,
@@ -40,7 +41,13 @@ function RegistrationPage() {
 
   useEffect(() => {
     const isValid =
-      formData.email.trim().length !== 0 && isValidEmail && passwordMatch;
+      formData.email.trim().length !== 0 &&
+      formData.firstName.trim().length !== 0 &&
+      formData.lastName.trim().length !== 0 &&
+      formData.password.trim().length !== 0 &&
+      formData.passwordTwo.trim().length !== 0 &&
+      isValidEmail &&
+      passwordMatch;
     setisFormValid(isValid);
   }, [isValidEmail, passwordMatch, formData]);
 
@@ -55,6 +62,8 @@ function RegistrationPage() {
         REGISTER_URL,
         JSON.stringify({
           email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           password: formData.password,
           role: formData.isHost ? "HOST" : "USER",
         }),
@@ -87,7 +96,7 @@ function RegistrationPage() {
     return (
       <div className="registration-page">
         <div className="reglog-box">
-          <p className="reglog-title">Welcome to HairBnb</p>
+          <FormTitle>Welcome to HairBnb</FormTitle>
           <p className="error-message">{errorMsg ? errorMsg : <></>}</p>
           <TextInput
             placeholder="E-mail"
@@ -95,6 +104,18 @@ function RegistrationPage() {
             invalid={!isValidEmail}
             onChange={(e) => {
               setFormData({ ...formData, ["email"]: e.target.value });
+            }}
+          />
+          <TextInput
+            placeholder="First Name"
+            onChange={(e) => {
+              setFormData({ ...formData, ["firstName"]: e.target.value });
+            }}
+          />
+          <TextInput
+            placeholder="Last Name"
+            onChange={(e) => {
+              setFormData({ ...formData, ["lastName"]: e.target.value });
             }}
           />
           <TextInput
@@ -128,7 +149,6 @@ function RegistrationPage() {
           </ConfirmButton>
           <p>
             Already have an account?
-            {/* TODO use react ROUTER */}
             <Link to={"/login"}>Login</Link>
           </p>
         </div>
