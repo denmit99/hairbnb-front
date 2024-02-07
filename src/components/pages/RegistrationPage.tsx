@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ConfirmButton from "../ui/ConfirmButon";
 import "./RegLog.css";
 import axios from "../../api/axios";
@@ -6,15 +6,15 @@ import { AxiosError } from "axios";
 import TextInput from "../ui/TextInput";
 import { Link, Navigate } from "react-router-dom";
 import { EmailUtil } from "../../util/EmailUtil";
-import useAuth from "../../api/useAuth";
 import FormTitle from "../ui/FormTitle";
+import { AuthContext, AuthContextType } from "../../context/AuthContext";
 
 // https://www.youtube.com/watch?v=X3qyxo_UTR4
 
 const REGISTER_URL = "/auth/register";
 
 function RegistrationPage() {
-  const { login } = useAuth();
+  const { setUser } = useContext(AuthContext) as AuthContextType;
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
@@ -75,7 +75,7 @@ function RegistrationPage() {
         `Response ${JSON.stringify(response.data)}, Status: ${response.status}`
       );
 
-      login(response.data.token);
+      setUser(response.data.token);
       setSuccess(true);
     } catch (error) {
       const err = error as AxiosError;

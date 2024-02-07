@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import useAuth from "./useAuth";
 import NotFoundPage from "../components/pages/NotFoundPage";
+import { AuthContext, AuthContextType } from "../context/AuthContext";
 
 interface PrivateRouteProps {
   children?: ReactNode;
@@ -9,8 +9,7 @@ interface PrivateRouteProps {
 }
 
 function PrivateRoute({ children, role }: PrivateRouteProps) {
-  const { getUser } = useAuth();
-  const user = getUser();
+  const { user } = useContext(AuthContext) as AuthContextType;
   const isAuthenticated = user !== null;
   console.log("user: " + JSON.stringify(user));
   if (!isAuthenticated) {

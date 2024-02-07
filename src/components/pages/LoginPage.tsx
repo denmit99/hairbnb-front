@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ConfirmButton from "../ui/ConfirmButon";
 import "./RegLog.css";
 import { Link, Navigate } from "react-router-dom";
@@ -6,13 +6,13 @@ import TextInput from "../ui/TextInput";
 import { EmailUtil } from "../../util/EmailUtil";
 import axios from "../../api/axios";
 import { AxiosError } from "axios";
-import useAuth from "../../api/useAuth";
 import FormTitle from "../ui/FormTitle";
+import { AuthContext, AuthContextType } from "../../context/AuthContext";
 
 const LOGIN_URL = "/auth/login";
 
 function LoginPage() {
-  const { login } = useAuth();
+  const { setUser } = useContext(AuthContext) as AuthContextType;
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -43,7 +43,7 @@ function LoginPage() {
       console.log(
         `Response ${JSON.stringify(response.data)}, Status: ${response.status}`
       );
-      login(response.data.token);
+      setUser(response.data.token);
       setSuccess(true);
     } catch (error) {
       const err = error as AxiosError;
