@@ -2,12 +2,18 @@ import NumberButtonInput from "./NumberButtonInput";
 import "./BedroomBox.css";
 import { useEffect, useState } from "react";
 
+export interface BedroomArrangement {
+  sofa: number;
+  queen: number;
+  single: number;
+  double: number;
+}
 interface BedroomBoxProps {
   number: number;
+  onChange?: (value: BedroomArrangement) => void;
 }
 
-export default function BedroomBox({ number }: BedroomBoxProps) {
-  console.log("inside");
+export default function BedroomBox({ number, onChange }: BedroomBoxProps) {
   const [open, setOpen] = useState(false);
   const [beds, setBeds] = useState({
     sofa: 0,
@@ -21,7 +27,7 @@ export default function BedroomBox({ number }: BedroomBoxProps) {
       beds.sofa === 0 &&
       beds.queen === 0 &&
       beds.single === 0 &&
-      beds.sofa === 0
+      beds.double === 0
     ) {
       return "0 beds";
     }
@@ -50,7 +56,6 @@ export default function BedroomBox({ number }: BedroomBoxProps) {
   };
 
   useEffect(() => {
-    console.log(JSON.stringify(beds));
     setBedsText(calculateBeds());
   }, [beds]);
 
@@ -63,7 +68,10 @@ export default function BedroomBox({ number }: BedroomBoxProps) {
         </div>
         <button
           className="bedroom-box-header-button"
-          onClick={() => setOpen(!open)}
+          onClick={() => {
+            onChange?.(beds);
+            setOpen(!open);
+          }}
         >
           {open ? "Done" : "Edit"}
         </button>

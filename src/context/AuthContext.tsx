@@ -32,8 +32,6 @@ function tokenToUser(token: string): UserData | null {
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  console.log("AUTH START");
-
   const [cookies, setCookie] = useCookies(["jwt-auth"]);
   function getCurrentUser(): UserData | null {
     const token = cookies["jwt-auth"];
@@ -51,14 +49,10 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setCookie("jwt-auth", token);
   };
 
-  console.log("AUTH MID" + JSON.stringify(user));
-
   const removeUser = () => {
     console.log("User is unset");
     setCookie("jwt-auth", null);
   };
-
-  console.log("AUTH FINISHED" + JSON.stringify(user));
 
   return (
     <AuthContext.Provider value={{ user, setUser: setCurrentUser, removeUser }}>

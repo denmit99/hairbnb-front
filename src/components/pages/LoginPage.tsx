@@ -40,9 +40,6 @@ function LoginPage() {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(
-        `Response ${JSON.stringify(response.data)}, Status: ${response.status}`
-      );
       setUser(response.data.token);
       setSuccess(true);
     } catch (error) {

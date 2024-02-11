@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import ConfirmButton from "../ui/ConfirmButon";
 import "./RegLog.css";
-import axios from "../../api/axios";
+import axiosInstance from "../../api/axios";
 import { AxiosError } from "axios";
 import TextInput from "../ui/TextInput";
 import { Link, Navigate } from "react-router-dom";
@@ -56,9 +56,8 @@ function RegistrationPage() {
   }, [formData]);
 
   const submitFrom = async () => {
-    console.log(formData);
     try {
-      var response = await axios.post(
+      var response = await axiosInstance.post(
         REGISTER_URL,
         JSON.stringify({
           email: formData.email,
@@ -71,10 +70,6 @@ function RegistrationPage() {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log(
-        `Response ${JSON.stringify(response.data)}, Status: ${response.status}`
-      );
-
       setUser(response.data.token);
       setSuccess(true);
     } catch (error) {

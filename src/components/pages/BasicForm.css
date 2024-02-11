@@ -1,0 +1,25 @@
+.basic-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: rgb(225, 237, 248); */
+    background-color: rgb(243, 243, 243);
+    width: 800px;
+    border-color: rgb(186, 186, 186);
+    border-width: 1.5px;
+    border-style: solid;
+    border-radius: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.basic-form-box-wide {
+    width: 100%;
+    display: grid;
+    grid-template-columns:  repeat(auto-fit, minmax(300px, 1fr));
+    column-gap: 100px;
+    row-gap: 5px;
+    margin-bottom: 25px;
+}
