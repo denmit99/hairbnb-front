@@ -10,6 +10,18 @@ export default function Navbar() {
       <p className="hairbnb-title" onClick={() => {}}>
         hairbnb
       </p>
+      <Link to="/listings">
+        <p>
+          <b>Search</b>
+        </p>
+      </Link>
+
+      <Link to="/listings/my">
+        <p>
+          <b>My listings</b>
+        </p>
+      </Link>
+
       <div className="user-button" onClick={() => console.log("click")}>
         <MenuIcon></MenuIcon>
         <PersonIcon className="profile-pic"></PersonIcon>

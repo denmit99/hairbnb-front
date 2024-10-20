@@ -6,6 +6,9 @@ import ListingsPage from "./components/pages/ListingsPage";
 import Navbar from "./components/navbar/Navbar";
 import PrivateRoute from "./api/PrivateRoute";
 import ListingsCreatePage from "./components/pages/ListingsCreatePage";
+import HostListingsPage from "./components/pages/HostListingsPage";
+import TestPage from "./components/pages/TestPage";
+import ListingPage from "./components/pages/ListingPage";
 
 function App() {
   return (
@@ -24,10 +27,27 @@ function App() {
           }
         />
         <Route
+          path="/listings/my"
+          element={
+            <PrivateRoute role="host">
+              <HostListingsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/listings/:id" element={<ListingPage />} />
+        <Route
           path="/listings/create"
           element={
             <PrivateRoute role="host">
               <ListingsCreatePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/test"
+          element={
+            <PrivateRoute role="host">
+              <TestPage />
             </PrivateRoute>
           }
         />

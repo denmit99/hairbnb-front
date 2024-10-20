@@ -1,0 +1,29 @@
+.listing-page {
+    /* background-color: red; */
+    margin-left: 100px;
+    margin-right: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.listing-title {
+    margin-bottom: 16px;
+}
+
+.listing-address {
+    margin-bottom: 8px;
+}
+
+.listing-info {
+    color: grey;
+    margin-bottom: 16px;
+}
+
+.listing-price {
+    margin-bottom: 16px;
+}
+
+.listing-description {
+margin-bottom: 8px;
+}

@@ -30,7 +30,10 @@ function AxiosInterceptor({ children }: any) {
     };
 
     const reqInterceptor = (request: InternalAxiosRequestConfig) => {
-      // request.headers["Content-Type"] = "application/json";
+      //If the header is manually set, we don't need to overwrite it
+      if (!request.headers["Content-Type"]) {
+        request.headers["Content-Type"] = "application/json";
+      }
 
       const token = cookies["jwt-auth"];
       if (token) {

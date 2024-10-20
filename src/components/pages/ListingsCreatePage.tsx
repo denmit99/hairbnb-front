@@ -8,6 +8,7 @@ import ConfirmButton from "../ui/ConfirmButon";
 import TextAreaInput from "../ui/TextAreaInput";
 import "./BasicForm.css";
 import "./RegLog.css";
+import "./UploadFile.css";
 import FormTitle from "../ui/FormTitle";
 import axiosInstance from "../../api/axios";
 import { amenities } from "../../constants/amenities";
@@ -16,6 +17,8 @@ import { placeType } from "../../constants/placeType";
 import { propertyType } from "../../constants/propertyType";
 import CheckboxInputList from "../ui/CheckboxInputList";
 import { BedroomArrangement } from "../ui/BedroomBox";
+import { Axios, AxiosError } from "axios";
+import { ErrorResponse, useNavigate } from "react-router-dom";
 
 const AMENITIES = amenities;
 const CURRENCIES = currency;
@@ -26,9 +29,12 @@ const UPLOAD_LISTING_IMAGE_URL = "/host/image/upload";
 
 interface ListingCreatePageFormState {
   title: string;
-  address: string;
+  country: string;
+  city: string;
+  street: string;
+  zipCode: string;
   description: string;
-  price: number;
+  pricePerNight: number;
   currency: string;
   propertyType: string;
   placeType: string;
@@ -40,13 +46,20 @@ interface ListingCreatePageFormState {
 }
 
 export default function ListingsCreatePage() {
+  const navigate = useNavigate();
   const [bedroomsNum, setBedroomsNum] = useState(0);
   const [file, setFile] = useState<File | undefined>();
+  const [filePreview, setFilePreview] = useState<string | ArrayBuffer | null>(
+    null
+  );
   const [formData, setFormData] = useState<ListingCreatePageFormState>({
     title: "",
-    address: "",
+    country: "",
+    city: "",
+    street: "",
+    zipCode: "",
     description: "",
-    price: 0,
+    pricePerNight: 0,
     currency: CURRENCIES[0].key,
     propertyType: PROPERTY_TYPES[0].key,
     placeType: PLACE_TYPES[0].key,
@@ -62,6 +75,10 @@ export default function ListingsCreatePage() {
       files: FileList;
     };
     setFile(target.files[0]);
+    const fileReader = new FileReader();
+    fileReader.onload = function () {
+      setFilePreview(fileReader.result);
+    };
   };
 
   const uploadImage = async () => {
@@ -88,12 +105,12 @@ export default function ListingsCreatePage() {
         JSON.stringify({
           title: formData.title,
           description: formData.description,
-          pricePerNight: formData.price,
+          pricePerNight: formData.pricePerNight,
           address: {
-            country: "",
-            city: "",
-            street: formData.address,
-            zipCode: "",
+            country: formData.country,
+            city: formData.city,
+            street: formData.street,
+            zipCode: formData.zipCode,
           },
           bedrooms: formData.bedroomArrangement.map((b) => {
             return {
@@ -111,8 +128,11 @@ export default function ListingsCreatePage() {
           amenities: formData.amenities,
         })
       );
+      navigate("/listings/my");
       // setSuccess(true);
-    } catch (error) {}
+    } catch (error: AxiosError<ErrorResponse> | unknown) {
+      if (error instanceof AxiosError) console.log(error.response);
+    }
   };
 
   return (
@@ -120,12 +140,14 @@ export default function ListingsCreatePage() {
       <div className="basic-form-container">
         <FormTitle>Create new listing</FormTitle>
         <div className="basic-form-box-wide">
-          <LabeledInput
+          {/* <LabeledInput
             label="Upload image"
             element={
               <>
                 <input
+                  className="upload-file"
                   type="file"
+                  accept="image/png, image/jpg"
                   onChange={(e) => {
                     onUpload(e);
                   }}
@@ -133,7 +155,7 @@ export default function ListingsCreatePage() {
                 <button onClick={uploadImage}>Upload</button>
               </>
             }
-          />
+          /> */}
           <LabeledInput
             label="Enter property name"
             element={
@@ -148,12 +170,32 @@ export default function ListingsCreatePage() {
           <LabeledInput
             label="Address"
             element={
-              <TextInput
-                placeholder="Address"
-                onChange={(e) => {
-                  setFormData({ ...formData, ["address"]: e.target.value });
-                }}
-              />
+              <>
+                <TextInput
+                  placeholder="Country"
+                  onChange={(e) => {
+                    setFormData({ ...formData, ["country"]: e.target.value });
+                  }}
+                />
+                <TextInput
+                  placeholder="City"
+                  onChange={(e) => {
+                    setFormData({ ...formData, ["city"]: e.target.value });
+                  }}
+                />
+                <TextInput
+                  placeholder="Street"
+                  onChange={(e) => {
+                    setFormData({ ...formData, ["street"]: e.target.value });
+                  }}
+                />
+                <TextInput
+                  placeholder="Zip Code"
+                  onChange={(e) => {
+                    setFormData({ ...formData, ["zipCode"]: e.target.value });
+                  }}
+                />
+              </>
             }
           />
           <LabeledInput
@@ -175,7 +217,10 @@ export default function ListingsCreatePage() {
                 <TextInput
                   placeholder="Price per night"
                   onChange={(e) => {
-                    setFormData({ ...formData, ["price"]: e.target.value });
+                    setFormData({
+                      ...formData,
+                      ["pricePerNight"]: e.target.value,
+                    });
                   }}
                 />
               }
