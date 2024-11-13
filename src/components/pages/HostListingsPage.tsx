@@ -1,11 +1,12 @@
 import { FaSearch } from "react-icons/fa";
-import "./Listings.css";
+import "./HostListings.css";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../api/axios";
 import { AxiosError } from "axios";
 import { ErrorResponse, useNavigate } from "react-router-dom";
+import ConfirmButton from "../ui/ConfirmButon";
 
-const GET_HOST_LISTINGS_URL = "/host/listings";
+const HOST_LISTINGS_URL = "/host/listings";
 
 interface Listing {
   id: string;
@@ -23,7 +24,7 @@ export default function HostListingsPage() {
 
   const getHostListings = async () => {
     try {
-      var response = await axiosInstance.get(GET_HOST_LISTINGS_URL);
+      var response = await axiosInstance.get(HOST_LISTINGS_URL);
       setListings(response.data);
       console.log(response);
     } catch (error: AxiosError<ErrorResponse> | unknown) {
@@ -40,13 +41,21 @@ export default function HostListingsPage() {
     navigate("/listings/create");
   };
 
+  const deleteListing = async (id: string) => {
+    try {
+      var response = await axiosInstance.delete(`${HOST_LISTINGS_URL}/${id}`);
+      setListings((prev) => prev.filter((l) => l.id !== id));
+      // window.location.reload();
+    } catch (error: AxiosError<ErrorResponse> | unknown) {}
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
     <>
-      <div className="listing-page-box">
+      <div className="host-listing-page-box">
         {/* <section className="search-bar-container">
           <div className="search-bar">
             <div className="search-bar-segment search-bar-segment-wide">
@@ -63,36 +72,46 @@ export default function HostListingsPage() {
             </button>
           </div>
         </section> */}
-        <button onClick={onClickCreateNew}>+ Create New Listing</button>
-        <div className="listing-list">
+        <div className="host-listing-top-panel">
+          {/* <button onClick={onClickCreateNew}>+ Create New Listing</button> */}
+          <ConfirmButton onClick={onClickCreateNew}>
+            + Create New Listing
+          </ConfirmButton>
+        </div>
+        <div className="host-listing-list">
           {listings.map((l) => {
             return (
               <>
                 <div
                   key={l.id}
-                  className="listing-list-card"
+                  className="host-listing-list-card"
                   onClick={() => {
                     console.log("CLICKED!");
                     navigate(`/listings/${l.id}`);
                   }}
                 >
-                  <div className="listing-card-content">
-                    <p className="listing-title">{l.title}</p>
-                    <p className="listing-description">{l.address}</p>
-                    <p className="listing-description">{l.description}</p>
+                  <div className="host-listing-card-content">
+                    <p className="host-listing-title">{l.title}</p>
+                    <p className="host-listing-description">{l.address}</p>
+                    <p className="host-listing-description">{l.description}</p>
                     {/* <p className="listing-description">{l.beds}</p> */}
-                    <div className="listing-price">
-                      <p className="listing-price-sum">
+                    <div className="host-listing-price">
+                      <p className="host-listing-price-sum">
                         {l.pricePerNight} {l.currency}
                       </p>
                       <p>per night</p>
                     </div>
                   </div>
-                  <div className="listing-list-card-buttons">
-                    <button className="listing-list-card-button">Edit</button>
-                    <button className="listing-list-card-button-remove">
-                      Remove
-                    </button>
+                  <div className="host-listing-list-card-buttons">
+                    <ConfirmButton
+                      red
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                        e.stopPropagation();
+                        deleteListing(l.id);
+                      }}
+                    >
+                      Delete
+                    </ConfirmButton>
                   </div>
                 </div>
               </>

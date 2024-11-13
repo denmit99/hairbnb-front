@@ -32,6 +32,7 @@ interface ListingCreatePageFormState {
   country: string;
   city: string;
   street: string;
+  houseNumber: string;
   zipCode: string;
   description: string;
   pricePerNight: number;
@@ -57,6 +58,7 @@ export default function ListingsCreatePage() {
     country: "",
     city: "",
     street: "",
+    houseNumber: "",
     zipCode: "",
     description: "",
     pricePerNight: 0,
@@ -110,6 +112,7 @@ export default function ListingsCreatePage() {
             country: formData.country,
             city: formData.city,
             street: formData.street,
+            houseNumber: formData.houseNumber,
             zipCode: formData.zipCode,
           },
           bedrooms: formData.bedroomArrangement.map((b) => {
@@ -187,6 +190,15 @@ export default function ListingsCreatePage() {
                   placeholder="Street"
                   onChange={(e) => {
                     setFormData({ ...formData, ["street"]: e.target.value });
+                  }}
+                />
+                <TextInput
+                  placeholder="House number"
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      ["houseNumber"]: e.target.value,
+                    });
                   }}
                 />
                 <TextInput

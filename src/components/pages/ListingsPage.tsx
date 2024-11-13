@@ -2,58 +2,96 @@ import "./RegLog.css";
 import "./Listings.css";
 //REMOVE FA change to MUI
 import { FaSearch } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
+import { ErrorResponse, useNavigate } from "react-router-dom";
+import axiosInstance from "../../api/axios";
+
+const LISTINGS_URL = "/listings";
+
+interface Listing {
+  id: string;
+  title: string;
+  address: string;
+  description: string;
+  pricePerNight: string;
+  currency: string;
+}
 
 function ListingsPage() {
-  const listings = [
-    {
-      id: 1,
-      name: "Apartment, Barcelona",
-      description: "Apartment Casa Nanit near Camp Nou",
-      beds: "1 queen size bed",
-      price: 101,
-      src: "apartment1.jpg",
-    },
-    {
-      id: 2,
-      name: "Apartment, Barcelona",
-      description: "Cozy studio Barcelona Center",
-      beds: "1 queen size bed",
-      price: 121,
-      src: "apartment2.jpg",
-    },
-    {
-      id: 1,
-      name: "Apartment, Barcelona",
-      description: "Apartment Casa Nanit near Camp Nou",
-      beds: "1 queen size bed",
-      price: 77,
-      src: "apartment3.jpg",
-    },
-    {
-      id: 2,
-      name: "Apartment, Barcelona",
-      description: "Apartment Casa Nanit near Camp Nou",
-      beds: "1 queen size bed",
-      price: 55,
-      src: "apartment4.jpg",
-    },
-    {
-      id: 1,
-      name: "Apartment, Barcelona",
-      description: "Apartment Casa Nanit near Camp Nou",
-      beds: "1 queen size bed",
-      price: 35,
-      src: "apartment5.jpg",
-    },
-    {
-      id: 2,
-      name: "House, Barcelona",
-      description: "Apartment Casa Nanit near Camp Nou",
-      beds: "1 queen size bed",
-      price: 230,
-      src: "apartment6.jpg",
-    },
-  ];
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [listings, setListings] = useState<Listing[]>([]);
+
+  const getListings = async () => {
+    try {
+      var response = await axiosInstance.post(LISTINGS_URL, JSON.stringify({}));
+      setListings(response.data);
+      console.log(response.data);
+    } catch (error: AxiosError<ErrorResponse> | unknown) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getListings();
+  }, []);
+
+  // const listings = [
+  //   {
+  //     id: 1,
+  //     name: "Apartment, Barcelona",
+  //     description: "Apartment Casa Nanit near Camp Nou",
+  //     beds: "1 queen size bed",
+  //     price: 101,
+  //     src: "apartment1.jpg",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Apartment, Barcelona",
+  //     description: "Cozy studio Barcelona Center",
+  //     beds: "1 queen size bed",
+  //     price: 121,
+  //     src: "apartment2.jpg",
+  //   },
+  //   {
+  //     id: 1,
+  //     name: "Apartment, Barcelona",
+  //     description: "Apartment Casa Nanit near Camp Nou",
+  //     beds: "1 queen size bed",
+  //     price: 77,
+  //     src: "apartment3.jpg",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Apartment, Barcelona",
+  //     description: "Apartment Casa Nanit near Camp Nou",
+  //     beds: "1 queen size bed",
+  //     price: 55,
+  //     src: "apartment4.jpg",
+  //   },
+  //   {
+  //     id: 1,
+  //     name: "Apartment, Barcelona",
+  //     description: "Apartment Casa Nanit near Camp Nou",
+  //     beds: "1 queen size bed",
+  //     price: 35,
+  //     src: "apartment5.jpg",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "House, Barcelona",
+  //     description: "Apartment Casa Nanit near Camp Nou",
+  //     beds: "1 queen size bed",
+  //     price: 230,
+  //     src: "apartment6.jpg",
+  //   },
+  // ];
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -67,7 +105,7 @@ function ListingsPage() {
         <section className="search-bar-container">
           <div className="search-bar">
             <div className="search-bar-segment search-bar-segment-wide">
-              <label>Where</label>
+              <label>City</label>
               <input
                 className="search-input"
                 placeholder="Where?"
@@ -75,16 +113,16 @@ function ListingsPage() {
               />
             </div>
             <div className="search-bar-segment left-bordered">
-              <label>Check in</label>
-              <input type="date" className="search-input" placeholder="When?" />
+              <label>Price from</label>
+              <input className="search-input" placeholder="Min Price" />
             </div>
             <div className="search-bar-segment left-bordered">
-              <label>Check out</label>
-              <input type="date" className="search-input" placeholder="When?" />
+              <label>To</label>
+              <input className="search-input" placeholder="Max Price" />
             </div>
             <div className="search-bar-segment left-bordered">
-              <label>Who</label>
-              <input className="search-input" placeholder="Who?" />
+              <label>№ of Guests</label>
+              <input className="search-input" placeholder="How Many Guests?" />
             </div>
 
             <button className="search-button">
@@ -93,16 +131,42 @@ function ListingsPage() {
             </button>
           </div>
         </section>
-
         <div className="listing-grid">
+          {listings.map((l) => {
+            return (
+              <>
+                <div
+                  key={l.id}
+                  className="card-container"
+                  onClick={() => {
+                    console.log("CLICKED!");
+                    navigate(`/listings/${l.id}`);
+                  }}
+                >
+                  <div className="listing-card">
+                    <div className="listing-card-content">
+                      <p className="listing-title">{l.title}</p>
+                      <p className="listing-description">{l.description}</p>
+                      <p className="listing-description">{l.address}</p>
+                      <div className="listing-price">
+                        <p className="listing-price-sum">€{l.pricePerNight}</p>
+                        <p>per night</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+        </div>
+
+        {/* <div className="listing-grid">
           {listings.map((l) => {
             return (
               <>
                 <div key={l.id} className="card-container">
                   <div className="listing-card">
-                    {/* <button className="like-button">
-                      <FavoriteIcon fontSize="medium" />
-                    </button> */}
+
                     <img src={`images/${l.src}`} />
                     <div className="listing-card-content">
                       <p className="listing-title">{l.name}</p>
@@ -118,7 +182,7 @@ function ListingsPage() {
               </>
             );
           })}
-        </div>
+        </div> */}
       </div>
     </>
   );

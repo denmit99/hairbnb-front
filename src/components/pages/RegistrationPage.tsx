@@ -139,7 +139,7 @@ function RegistrationPage() {
             />
             <label>Host</label>
           </div>
-          <ConfirmButton disabled={!isFormValid} onClick={submitFrom}>
+          <ConfirmButton wide disabled={!isFormValid} onClick={submitFrom}>
             Register
           </ConfirmButton>
           <p>

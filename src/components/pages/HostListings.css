@@ -1,0 +1,115 @@
+  * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  }
+
+.host-listing-list {
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+
+.host-listing-page-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.host-listing-top-panel {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.host-listing-list-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    height: 150px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgb(167, 167, 167);
+    overflow: hidden;
+}
+
+.host-listing-card-content {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.host-listing-card-content p {
+    padding-left: 5px;
+    padding-bottom: 5px;
+}
+
+.host-listing-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: 600;
+    color: black;
+}
+
+.host-listing-description {
+    color: rgb(100, 100, 100);
+
+}
+
+.host-listing-price {
+    display: flex;
+    color: rgb(100, 100, 100);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.host-listing-price-sum {
+    color: black;
+    font-weight: 600;
+}
+
+.host-listing-list-card-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.host-listing-list-card-button {
+    border-color: grey;
+    border-radius: 5px;
+    border-width: 1px;
+    background-color: white;
+    border-style: solid;
+    margin: 10px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.host-listing-list-card-button-remove {
+    border-color: grey;
+    border-radius: 5px;
+    border-width: 1px;
+    background-color: rgb(249, 61, 61);
+    color: white;
+    border-style: solid;
+    margin: 10px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}

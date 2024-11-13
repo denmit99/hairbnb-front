@@ -2,16 +2,20 @@ import "./Button.css";
 
 interface Props {
   children: string;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
+  wide?: boolean;
+  red?: boolean;
 }
 
-function ConfirmButton({ children, disabled, onClick }: Props) {
+function ConfirmButton({ children, disabled, wide, red, onClick }: Props) {
   return (
     <button
       disabled={disabled}
       onClick={!disabled ? onClick : () => {}}
-      className={disabled ? "disabled-button" : "confirm-button"}
+      className={`${wide ? "confirm-button-wide" : {}} ${
+        disabled ? "disabled-button" : "confirm-button"
+      } ${red ? "confirm-button-red" : {}} `}
     >
       {children}
     </button>

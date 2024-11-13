@@ -79,7 +79,7 @@ function LoginPage() {
               setFormData({ ...formData, ["password"]: e.target.value })
             }
           />
-          <ConfirmButton disabled={!isValidEmail} onClick={submitFrom}>
+          <ConfirmButton wide disabled={!isValidEmail} onClick={submitFrom}>
             Login
           </ConfirmButton>
           <p>
