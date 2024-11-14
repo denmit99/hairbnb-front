@@ -9,3 +9,9 @@ The backend repository can be found here https://github.com/denmit99/hairbnb
 `npm i`
 
 `npm start`
+
+## How to publish image
+
+`docker build -t denmit99/hairbnb-front:{TAG} .`
+
+`docker push denmit99/hairbnb-front:{TAG}`
