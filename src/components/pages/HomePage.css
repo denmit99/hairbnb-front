@@ -1,0 +1,21 @@
+.home-page {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.home-page h1 {
+    color: #25b784;
+    padding-left: 25px;
+        padding-right: 25px;
+}
+
+.home-page h2 {
+    padding-left: 25px;
+    padding-right: 25px;
+    font-weight: 300;
+    padding-top: 50px;
+}

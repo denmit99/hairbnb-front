@@ -9,13 +9,14 @@ import ListingsCreatePage from "./components/pages/ListingsCreatePage";
 import HostListingsPage from "./components/pages/HostListingsPage";
 import TestPage from "./components/pages/TestPage";
 import ListingPage from "./components/pages/ListingPage";
+import HomePage from "./components/pages/HomePage";
 
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<h1>Home Page</h1>}></Route>
+        <Route path="/" element={<HomePage />}></Route>
         <Route path="/register" element={<RegistrationPage />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route

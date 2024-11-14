@@ -5,6 +5,7 @@ import axiosInstance from "../../api/axios";
 import { AxiosError } from "axios";
 import { ErrorResponse, useNavigate } from "react-router-dom";
 import ConfirmButton from "../ui/ConfirmButon";
+import { Skeleton } from "@mui/material";
 
 const HOST_LISTINGS_URL = "/host/listings";
 
@@ -45,12 +46,15 @@ export default function HostListingsPage() {
     try {
       var response = await axiosInstance.delete(`${HOST_LISTINGS_URL}/${id}`);
       setListings((prev) => prev.filter((l) => l.id !== id));
-      // window.location.reload();
     } catch (error: AxiosError<ErrorResponse> | unknown) {}
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <div className="host-listing-page-box">Loading...</div>
+      </>
+    );
   }
 
   return (

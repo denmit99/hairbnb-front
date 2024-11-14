@@ -18,14 +18,38 @@ interface Listing {
   currency: string;
 }
 
+interface ListingSearchParameters {
+  city: string;
+  minPrice: number | null;
+  maxPrice: number | null;
+  numberOfGuests: number | null;
+}
+
 function ListingsPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [listings, setListings] = useState<Listing[]>([]);
 
+  const [searchParameters, setSearchParameters] =
+    useState<ListingSearchParameters>({
+      city: "",
+      minPrice: null,
+      maxPrice: null,
+      numberOfGuests: null,
+    });
+
   const getListings = async () => {
     try {
-      var response = await axiosInstance.post(LISTINGS_URL, JSON.stringify({}));
+      var response = await axiosInstance.post(
+        LISTINGS_URL,
+        JSON.stringify({
+          citySubstring: searchParameters.city,
+          minPrice: searchParameters.minPrice,
+          maxPrice: searchParameters.maxPrice,
+          numberOfGuests: searchParameters.numberOfGuests,
+          currency: "EUR",
+        })
+      );
       setListings(response.data);
       console.log(response.data);
     } catch (error: AxiosError<ErrorResponse> | unknown) {
@@ -38,56 +62,9 @@ function ListingsPage() {
     getListings();
   }, []);
 
-  // const listings = [
-  //   {
-  //     id: 1,
-  //     name: "Apartment, Barcelona",
-  //     description: "Apartment Casa Nanit near Camp Nou",
-  //     beds: "1 queen size bed",
-  //     price: 101,
-  //     src: "apartment1.jpg",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Apartment, Barcelona",
-  //     description: "Cozy studio Barcelona Center",
-  //     beds: "1 queen size bed",
-  //     price: 121,
-  //     src: "apartment2.jpg",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "Apartment, Barcelona",
-  //     description: "Apartment Casa Nanit near Camp Nou",
-  //     beds: "1 queen size bed",
-  //     price: 77,
-  //     src: "apartment3.jpg",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Apartment, Barcelona",
-  //     description: "Apartment Casa Nanit near Camp Nou",
-  //     beds: "1 queen size bed",
-  //     price: 55,
-  //     src: "apartment4.jpg",
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "Apartment, Barcelona",
-  //     description: "Apartment Casa Nanit near Camp Nou",
-  //     beds: "1 queen size bed",
-  //     price: 35,
-  //     src: "apartment5.jpg",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "House, Barcelona",
-  //     description: "Apartment Casa Nanit near Camp Nou",
-  //     beds: "1 queen size bed",
-  //     price: 230,
-  //     src: "apartment6.jpg",
-  //   },
-  // ];
+  useEffect(() => {
+    getListings();
+  }, [searchParameters]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -95,12 +72,6 @@ function ListingsPage() {
 
   return (
     <>
-      {/* <div className="listings-box">
-        <h1>Listings</h1>
-        <div className="listing">hello</div>
-        <div className="listing">hello</div>
-      </div> */}
-
       <div className="listing-box">
         <section className="search-bar-container">
           <div className="search-bar">
@@ -110,25 +81,58 @@ function ListingsPage() {
                 className="search-input"
                 placeholder="Where?"
                 maxLength={100}
+                onChange={(e) => {
+                  setSearchParameters({
+                    ...searchParameters,
+                    city: e.target.value,
+                  });
+                }}
               />
             </div>
             <div className="search-bar-segment left-bordered">
-              <label>Price from</label>
-              <input className="search-input" placeholder="Min Price" />
+              <label>Price from (€)</label>
+              <input
+                className="search-input"
+                placeholder="Min Price"
+                onChange={(e) => {
+                  setSearchParameters({
+                    ...searchParameters,
+                    minPrice: parseFloat(e.target.value),
+                  });
+                }}
+              />
             </div>
             <div className="search-bar-segment left-bordered">
               <label>To</label>
-              <input className="search-input" placeholder="Max Price" />
+              <input
+                className="search-input"
+                placeholder="Max Price"
+                onChange={(e) => {
+                  setSearchParameters({
+                    ...searchParameters,
+                    maxPrice: parseFloat(e.target.value),
+                  });
+                }}
+              />
             </div>
             <div className="search-bar-segment left-bordered">
               <label>№ of Guests</label>
-              <input className="search-input" placeholder="How Many Guests?" />
+              <input
+                className="search-input"
+                placeholder="How Many Guests?"
+                onChange={(e) => {
+                  setSearchParameters({
+                    ...searchParameters,
+                    numberOfGuests: parseFloat(e.target.value),
+                  });
+                }}
+              />
             </div>
 
-            <button className="search-button">
+            {/* <button className="search-button">
               <FaSearch className="search-icon" />
               Search
-            </button>
+            </button> */}
           </div>
         </section>
         <div className="listing-grid">
@@ -159,30 +163,6 @@ function ListingsPage() {
             );
           })}
         </div>
-
-        {/* <div className="listing-grid">
-          {listings.map((l) => {
-            return (
-              <>
-                <div key={l.id} className="card-container">
-                  <div className="listing-card">
-
-                    <img src={`images/${l.src}`} />
-                    <div className="listing-card-content">
-                      <p className="listing-title">{l.name}</p>
-                      <p className="listing-description">{l.description}</p>
-                      <p className="listing-description">{l.beds}</p>
-                      <div className="listing-price">
-                        <p className="listing-price-sum">€{l.price}</p>
-                        <p>per night</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-            );
-          })}
-        </div> */}
       </div>
     </>
   );

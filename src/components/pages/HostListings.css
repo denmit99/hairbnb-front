@@ -6,11 +6,9 @@
   }
 
 .host-listing-list {
-    /* background-color: red; */
     display: flex;
     flex-direction: column;
     width: 100%;
-
 }
 
 .host-listing-page-box {
