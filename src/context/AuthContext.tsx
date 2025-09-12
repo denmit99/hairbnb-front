@@ -1,5 +1,5 @@
 import { JwtPayload, jwtDecode } from "jwt-decode";
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
 interface UserData {
@@ -46,8 +46,13 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser({ email: decoded.sub, role: decoded.role });
       console.log(`User is set ${JSON.stringify(decoded)}`);
     }
-    setCookie("jwt-auth", token);
+    setCookie("jwt-auth", token, { path: "/" });
   };
+
+  useEffect(() => {
+    const token = cookies["jwt-auth"];
+    token && setCurrentUser(token);
+  }, [cookies["jwt-auth"]]);
 
   const removeUser = () => {
     console.log("User is unset");

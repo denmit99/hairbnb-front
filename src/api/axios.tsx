@@ -19,37 +19,28 @@ function AxiosInterceptor({ children }: any) {
   ) as AuthContextType;
 
   useEffect(() => {
-    const resInterceptor = (response: AxiosResponse) => {
-      console.log(`Response: ${JSON.stringify(response)}`);
-      return response;
-    };
+    const requestInterceptor = axiosInstance.interceptors.request.use(
+      (request: InternalAxiosRequestConfig) => {
+        //If the header is manually set, we don't need to overwrite it
+        if (!request.headers["Content-Type"]) {
+          request.headers["Content-Type"] = "application/json";
+        }
 
-    const errInterceptor = (error: any) => {
-      console.log(`Error: ${JSON.stringify(error)}`);
-      return Promise.reject(error);
-    };
-
-    const reqInterceptor = (request: InternalAxiosRequestConfig) => {
-      //If the header is manually set, we don't need to overwrite it
-      if (!request.headers["Content-Type"]) {
-        request.headers["Content-Type"] = "application/json";
+        const token = cookies["jwt-auth"];
+        if (token) {
+          request.headers["Authorization"] = "Bearer " + token;
+        }
+        console.log(`Request: ${JSON.stringify(request)}`);
+        return request;
       }
-
-      const token = cookies["jwt-auth"];
-      if (token) {
-        request.headers["Authorization"] = "Bearer " + token;
-      }
-      console.log(`Request: ${JSON.stringify(request)}`);
-      return request;
-    };
-
-    const responseInterceptor = axiosInstance.interceptors.response.use(
-      resInterceptor,
-      errInterceptor
     );
 
-    const requestInterceptor =
-      axiosInstance.interceptors.request.use(reqInterceptor);
+    const responseInterceptor = axiosInstance.interceptors.response.use(
+      (response: AxiosResponse) => {
+        console.log(`Response: ${JSON.stringify(response)}`);
+        return response;
+      }
+    );
 
     setIsSet(true);
     return () => {
@@ -60,22 +51,5 @@ function AxiosInterceptor({ children }: any) {
   return isSet && children;
 }
 
-// axiosInstance.interceptors.request.use((config) => {
-
-// });
-
-// axiosInstance.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   (error) => {
-//     console.log(error);
-//     return Promise.reject(error);
-//   }
-// );
-
 export default axiosInstance;
 export { AxiosInterceptor };
-
-//TODO add request interceptor = add jwt token to request
-//TODO add response interceptor = handle error
