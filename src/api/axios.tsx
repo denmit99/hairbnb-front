@@ -36,9 +36,41 @@ function AxiosInterceptor({ children }: any) {
     );
 
     const responseInterceptor = axiosInstance.interceptors.response.use(
+      //On Success
       (response: AxiosResponse) => {
         console.log(`Response: ${JSON.stringify(response)}`);
         return response;
+      },
+      //On Fail
+      async (error: AxiosError) => {
+        console.log(`Request failed with status ${error.response?.status}`);
+        const originalRequest = error.config as InternalAxiosRequestConfig & {
+          _retry?: boolean;
+        };
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+
+          try {
+            console.log("Attempt to refresh token");
+            const refreshResponse = await axios.post(
+              "/auth/refresh",
+              {},
+              { withCredentials: true }
+            );
+            const newAccessToken = refreshResponse.data.accessToken;
+            setCookie("jwt-auth", newAccessToken, { path: "/" });
+            originalRequest.headers["Authorization"] =
+              "Bearer " + newAccessToken;
+            console.log("Attempt to refresh token: SUCCESSFUL");
+            return axiosInstance(originalRequest);
+          } catch (refreshError) {
+            console.log("Attempt to refresh token: FAILED. Log out user");
+            removeUser();
+            return Promise.reject(refreshError);
+          }
+        }
+        return Promise.reject(error);
       }
     );
 

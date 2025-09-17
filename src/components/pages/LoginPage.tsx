@@ -38,6 +38,7 @@ function LoginPage() {
         }),
         {
           headers: { "Content-Type": "application/json" },
+          withCredentials: true,
         }
       );
       setUser(response.data.token);
