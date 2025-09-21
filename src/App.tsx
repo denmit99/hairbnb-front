@@ -7,7 +7,6 @@ import Navbar from "./components/navbar/Navbar";
 import PrivateRoute from "./api/PrivateRoute";
 import ListingsCreatePage from "./components/pages/ListingsCreatePage";
 import HostListingsPage from "./components/pages/HostListingsPage";
-import TestPage from "./components/pages/TestPage";
 import ListingPage from "./components/pages/ListingPage";
 import HomePage from "./components/pages/HomePage";
 
@@ -44,15 +43,6 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/test"
-          element={
-            <PrivateRoute role="host">
-              <TestPage />
-            </PrivateRoute>
-          }
-        />
-
         <Route path="*" element={<NotFoundPage />}></Route>
       </Routes>
     </>

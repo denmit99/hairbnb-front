@@ -4,15 +4,21 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { ReactNode, useContext, useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 import { AuthContext, AuthContextType } from "../context/AuthContext";
+import { getCookie, setCookie } from "../utils/cookieUtils";
+import { COOKIE_NAMES } from "../constants/cookies";
+
+const LOGIN_URL = "/auth/login";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080",
 });
 
+const refreshAxiosInstance = axios.create({
+  baseURL: "http://localhost:8080",
+});
+
 function AxiosInterceptor({ children }: any) {
-  const [cookies, setCookie] = useCookies(["jwt-auth"]);
   const [isSet, setIsSet] = useState(false);
   const { user, setUser, removeUser } = useContext(
     AuthContext
@@ -21,16 +27,19 @@ function AxiosInterceptor({ children }: any) {
   useEffect(() => {
     const requestInterceptor = axiosInstance.interceptors.request.use(
       (request: InternalAxiosRequestConfig) => {
+        console.log("Request interceptor start");
         //If the header is manually set, we don't need to overwrite it
         if (!request.headers["Content-Type"]) {
           request.headers["Content-Type"] = "application/json";
         }
 
-        const token = cookies["jwt-auth"];
+        const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
+        console.log(`Value of access token is ${token}`);
         if (token) {
           request.headers["Authorization"] = "Bearer " + token;
         }
         console.log(`Request: ${JSON.stringify(request)}`);
+        console.log("Request interceptor finish");
         return request;
       }
     );
@@ -53,13 +62,13 @@ function AxiosInterceptor({ children }: any) {
 
           try {
             console.log("Attempt to refresh token");
-            const refreshResponse = await axios.post(
+            const refreshResponse = await refreshAxiosInstance.post(
               "/auth/refresh",
               {},
               { withCredentials: true }
             );
             const newAccessToken = refreshResponse.data.accessToken;
-            setCookie("jwt-auth", newAccessToken, { path: "/" });
+            setCookie(COOKIE_NAMES.ACCESS_TOKEN, newAccessToken);
             originalRequest.headers["Authorization"] =
               "Bearer " + newAccessToken;
             console.log("Attempt to refresh token: SUCCESSFUL");

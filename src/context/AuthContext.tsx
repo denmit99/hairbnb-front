@@ -1,6 +1,7 @@
 import { JwtPayload, jwtDecode } from "jwt-decode";
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import { deleteCookie, getCookie, setCookie } from "../utils/cookieUtils";
+import { COOKIE_NAMES } from "../constants/cookies";
 
 interface UserData {
   email: string;
@@ -32,10 +33,9 @@ function tokenToUser(token: string): UserData | null {
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [cookies, setCookie] = useCookies(["jwt-auth"]);
   function getCurrentUser(): UserData | null {
-    const token = cookies["jwt-auth"];
-    return tokenToUser(token);
+    const token = getCookie(COOKIE_NAMES.ACCESS_TOKEN);
+    return token ? tokenToUser(token) : null;
   }
 
   const [user, setUser] = useState<UserData | null>(getCurrentUser());
@@ -46,17 +46,12 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setUser({ email: decoded.sub, role: decoded.role });
       console.log(`User is set ${JSON.stringify(decoded)}`);
     }
-    setCookie("jwt-auth", token, { path: "/" });
+    setCookie(COOKIE_NAMES.ACCESS_TOKEN, token);
   };
-
-  useEffect(() => {
-    const token = cookies["jwt-auth"];
-    token && setCurrentUser(token);
-  }, [cookies["jwt-auth"]]);
 
   const removeUser = () => {
     console.log("User is unset");
-    setCookie("jwt-auth", null);
+    deleteCookie(COOKIE_NAMES.ACCESS_TOKEN);
   };
 
   return (

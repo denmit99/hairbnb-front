@@ -3,8 +3,8 @@ import ConfirmButton from "../ui/ConfirmButon";
 import "./RegLog.css";
 import { Link, Navigate } from "react-router-dom";
 import TextInput from "../ui/TextInput";
-import { EmailUtil } from "../../util/EmailUtil";
-import axios from "../../api/axios";
+import { EmailUtil } from "../../utils/emailUtils";
+import axiosInstance from "../../api/axios";
 import { AxiosError } from "axios";
 import FormTitle from "../ui/FormTitle";
 import { AuthContext, AuthContextType } from "../../context/AuthContext";
@@ -30,7 +30,7 @@ function LoginPage() {
   const submitFrom = async () => {
     console.log(formData);
     try {
-      var response = await axios.post(
+      var response = await axiosInstance.post(
         LOGIN_URL,
         JSON.stringify({
           email: formData.email,

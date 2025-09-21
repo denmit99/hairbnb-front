@@ -5,7 +5,7 @@ import axiosInstance from "../../api/axios";
 import { AxiosError } from "axios";
 import TextInput from "../ui/TextInput";
 import { Link, Navigate } from "react-router-dom";
-import { EmailUtil } from "../../util/EmailUtil";
+import { EmailUtil } from "../../utils/emailUtils";
 import FormTitle from "../ui/FormTitle";
 import { AuthContext, AuthContextType } from "../../context/AuthContext";
 

@@ -4,7 +4,6 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { CookiesProvider } from "react-cookie";
 import AuthProvider from "./context/AuthContext";
 import { AxiosInterceptor } from "./api/axios";
 
@@ -13,15 +12,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <CookiesProvider>
-      <AuthProvider>
-        <AxiosInterceptor>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </AxiosInterceptor>
-      </AuthProvider>
-    </CookiesProvider>
+    <AuthProvider>
+      <AxiosInterceptor>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AxiosInterceptor>
+    </AuthProvider>
   </React.StrictMode>
 );
 
