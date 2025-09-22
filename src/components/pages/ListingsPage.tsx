@@ -50,8 +50,8 @@ function ListingsPage() {
           currency: "EUR",
         })
       );
+      console.log("API response:", response.data);
       setListings(response.data);
-      console.log(response.data);
     } catch (error: AxiosError<ErrorResponse> | unknown) {
     } finally {
       setLoading(false);

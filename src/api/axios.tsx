@@ -67,11 +67,13 @@ function AxiosInterceptor({ children }: any) {
               {},
               { withCredentials: true }
             );
-            const newAccessToken = refreshResponse.data.accessToken;
+            console.log(`refresh token response ${refreshResponse}`);
+            const newAccessToken = refreshResponse.data.token;
             setCookie(COOKIE_NAMES.ACCESS_TOKEN, newAccessToken);
             originalRequest.headers["Authorization"] =
               "Bearer " + newAccessToken;
             console.log("Attempt to refresh token: SUCCESSFUL");
+            console.log(`New accessToken: ${newAccessToken}`);
             return axiosInstance(originalRequest);
           } catch (refreshError) {
             console.log("Attempt to refresh token: FAILED. Log out user");
